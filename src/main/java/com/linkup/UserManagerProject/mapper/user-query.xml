@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="selectUser">
+        SELECT USER_CD,
+        USER_ID,
+        USER_PW
+        FROM USERTEST1
+    </entry>
+    <entry key="insertUser">
+    INSERT INTO USERTEST1
+    (
+        USER_CD,
+        USER_ID,
+        USER_PW
+    )
+    VALUES
+    (
+    ?,
+    ?,
+    ?
+    )
+    </entry>
+    <entry key="updateUserIdPw">
+        UPDATE USERTEST1
+        SET USER_ID = ?
+        , USER_PW = ?
+        WHERE USER_CD = ?
+    </entry>
+    <entry key="deleteUserCD">
+        DELETE
+        FROM UserTEST1
+        WHERE USER_CD = ?
+    </entry>
+
+</properties>
