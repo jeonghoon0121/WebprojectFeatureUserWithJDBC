@@ -16,25 +16,26 @@ import java.util.Properties;
 
 import static com.linkup.UserManagerProject.common.JDBCTemplate.close;
 
-public class UserDAO {
+public class UserInsertDAO {
     private Properties prop = new Properties();
-    String addr="C:\\lecture2\\JDBC\\WebprojectFeatureUserWithJDBC\\src\\main\\java\\com\\linkup\\UserManagerProject\\mapper\\user-query.xml";
-    public void selectAllCode(Connection con){
+    String addr = "C:\\lecture2\\JDBC\\WebprojectFeatureUserWithJDBC\\src\\main\\java\\com\\linkup\\UserManagerProject\\mapper\\user-query.xml";
+
+    public void selectAllCode(Connection con) {
 
         PreparedStatement pstmt = null;
         ResultSet rset = null;
-        List<UserDTO>userDTOList=new ArrayList<>();
+        List<UserDTO> userDTOList = new ArrayList<>();
 
-        int maxMenuCode=1;
+        int maxMenuCode = 1;
 
         try {
             prop.loadFromXML(new FileInputStream(addr));
             String query = prop.getProperty("selectUser");
 //            System.out.println("query = " + query);
-            pstmt=con.prepareStatement(query);
-            rset=pstmt.executeQuery();
-            while(rset.next()){
-                UserDTO userDTO=new UserDTO();
+            pstmt = con.prepareStatement(query);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+                UserDTO userDTO = new UserDTO();
                 userDTO.setUserCode(rset.getInt("USER_CD"));
                 userDTO.setUserID(rset.getString("USER_ID"));
                 userDTO.setUserPassword(rset.getString("USER_PW"));
@@ -58,26 +59,27 @@ public class UserDAO {
             close(rset);
         }
     }
-    public void selectLastCode(Connection con){
+
+    public int selectLastCode(Connection con) {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
         try {
             prop.loadFromXML(new FileInputStream(addr));
-
             String query = prop.getProperty("selectUser2");
 //            System.out.println("query = " + query);
-
-            pstmt=con.prepareStatement(query);
-            rset=pstmt.executeQuery();
-            if(rset.next()){
-                UserDTO userDTO=new UserDTO();
+            pstmt = con.prepareStatement(query);
+            rset = pstmt.executeQuery();
+            if (rset.next()) {
+                UserDTO userDTO = new UserDTO();
                 userDTO.setUserCode(rset.getInt("USER_CD"));
                 userDTO.setUserID(rset.getString("USER_ID"));
                 userDTO.setUserPassword(rset.getString("USER_PW"));
                 System.out.println(userDTO.getUserCode());
                 System.out.println(userDTO.getUserID());
                 System.out.println(userDTO.getUserPassword());
+                return (userDTO.getUserCode() + 1);
             }
+            return 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -89,8 +91,35 @@ public class UserDAO {
         } finally {
             close(rset);
             close(pstmt);
-            close(rset);
 
+        }
+
+    }
+
+    public void insertNewUser(Connection con,UserDTO userDTO) {
+        int lastnumber=selectLastCode(con);
+        System.out.println(lastnumber);
+        userDTO.setUserCode(lastnumber);
+        PreparedStatement pstmt = null;
+        try {
+            prop.loadFromXML(new FileInputStream(addr));
+            String query = prop.getProperty("InsertNewUser");
+            pstmt=con.prepareStatement(query);
+            pstmt.setInt(1,userDTO.getUserCode());
+            pstmt.setString(2,userDTO.getUserID());
+            pstmt.setString(3,userDTO.getUserPassword());
+            int result=pstmt.executeUpdate();
+            System.out.println(result);
+            if(result==1){
+                System.out.println("성공");
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            close(pstmt);
         }
     }
 }

@@ -16,7 +16,7 @@ import java.util.Properties;
 
 import static com.linkup.UserManagerProject.common.JDBCTemplate.close;
 
-public class UserDAO {
+public class UserSearchDAO {
     private Properties prop = new Properties();
     String addr="C:\\lecture2\\JDBC\\WebprojectFeatureUserWithJDBC\\src\\main\\java\\com\\linkup\\UserManagerProject\\mapper\\user-query.xml";
     public void selectAllCode(Connection con){

@@ -8,13 +8,13 @@ import java.util.Properties;
 public class JDBCTemplate {
 
     public static Connection getConnection() {
-
+        String addr="C:\\lecture2\\JDBC\\WebprojectFeatureUserWithJDBC\\src\\main\\java\\com\\linkup\\UserManagerProject\\config\\connection-info.properties";
         Connection con = null;
 
         Properties prop = new Properties();
 
         try {
-            prop.load(new FileReader("E:\\CODE\\FeatureTestProject\\UserManagerProject\\src\\main\\java\\com\\linkup\\UserManagerProject\\config\\connection-info.properties"));
+            prop.load(new FileReader(addr));
 
             String driver = prop.getProperty("driver");
             String url = prop.getProperty("url");

@@ -7,6 +7,19 @@
         USER_PW
         FROM USERTEST1
     </entry>
+    <entry key="selectUser2">
+        SELECT USER_CD, USER_ID, USER_PW
+        FROM USERTEST1
+        ORDER BY USER_CD DESC
+        LIMIT 1;
+    </entry>
+    <entry key="InsertNewUser">
+        INSERT INTO USERTEST1 (USER_CD, USER_ID, USER_PW)
+        VALUES(?,?,?)
+    </entry>
+
+
+
     <entry key="insertUser">
     INSERT INTO USERTEST1
     (
@@ -21,6 +34,7 @@
     ?
     )
     </entry>
+
     <entry key="updateUserIdPw">
         UPDATE USERTEST1
         SET USER_ID = ?
@@ -31,6 +45,10 @@
         DELETE
         FROM UserTEST1
         WHERE USER_CD = ?
+    </entry>
+    <entry key="DeleteUser">
+        DELETE FROM USERTEST1
+        WHERE USER_CD=?
     </entry>
 
 </properties>

@@ -1,6 +1,8 @@
 package com.linkup.UserManagerProject.run;
 
-import com.linkup.UserManagerProject.model.dao.UserDAO;
+import com.linkup.UserManagerProject.model.dao.UserDeleteDAO;
+import com.linkup.UserManagerProject.model.dao.UserInsertDAO;
+import com.linkup.UserManagerProject.model.dao.UserSearchDAO;
 import com.linkup.UserManagerProject.model.dto.UserDTO;
 
 import java.sql.Connection;
@@ -17,6 +19,8 @@ Author : 2025-08-27 JeongHoon
     ver 1.1 DTO 통합 ->성공 2025-08-27
     ver 1.2 DAO 통합 ->>성공 2025-08-27
     ver 1.3 mapper ->userDAO -> Application 구조 조회성공
+    ver 1.4 Search 기능 1. all 2. last 2025-09-03
+    ver 1.5 userDAO 분리
 * com.linkup.
 ├── common         // JDBCTemplate
 ├── config         // 설정 기능
@@ -47,11 +51,27 @@ public class Application {
         UserDAO 작성
         Application Test
         */
-        UserDAO userDAO=new UserDAO();
+//        UserDAO userDAO=new UserDAO();
+
+        UserSearchDAO userSearchDAO=new UserSearchDAO();
+        UserInsertDAO userInsertDAO=new UserInsertDAO();
+        UserDeleteDAO userDeleteDAO=new UserDeleteDAO();
         Connection con = getConnection();
 
         List<UserDTO> userDTOList=new ArrayList<>();
-        userDAO.selectLastCode(con);
-        userDAO.selectAllCode(con);
+//        userDAO.selectLastCode(con);
+//        userDAO.selectAllCode(con);
+
+        userSearchDAO.selectAllCode(con);
+        userSearchDAO.selectLastCode(con);
+
+        UserDTO userDTO1= new UserDTO();
+        userDTO1.setUserID("testabcd");
+        userDTO1.setUserPassword("1234");
+        userInsertDAO.insertNewUser(con,userDTO1);
+
+        UserDTO userDTO2= new UserDTO();
+        userDTO2.setUserCode(8);
+        userDeleteDAO.deleteUser(con,userDTO2);
     }
 }
